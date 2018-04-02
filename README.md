@@ -46,6 +46,18 @@ and serialization / deserialization middlewares along with some added functional
    ```
    - **It will give list of options for running the sample.** </br>
    - **Update port and topic as per requirement.** </br>
+   
+## Running unit test cases ##
+
+### Prerequisites ###
+ Built protocol-ezmq-node.
+ 
+### Unit test ### 
+1. Goto: ~/protocol-ezmq-node/
+2. Run the test cases:
+   ```
+   $ node_modules/mocha/bin/mocha unittests/*js
+   ```    
 
 ## Future Work ##
   - High speed parallel ordered serialization / deserialization based on streaming load.
