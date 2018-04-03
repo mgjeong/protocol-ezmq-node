@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ezmqpublisher.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: ezmqpublisher.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*******************************************************************************
+ * Copyright 2018 Samsung Electronics All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ *******************************************************************************/
+
+//Module dependencies.
+var ezmqpub = require('../build/Release/ezmq.node'),
+    ezmqEvent = require('./ezmqevent.js'),
+    ezmqByteData = require('./ezmqbytedata.js');
+
+//Expose bindings as the module.
+exports = module.exports = ezmqpub;
+
+var nezmqPub;
+/**
+ * @class This class represent EZMQPublisher. It contains APIs to
+ *              start/stop publisher and to publish data. &lt;br>&lt;br>
+ *
+ * &lt;b>ProtoType of startCB&lt;/b> :- function startCB(erroCode) {} &lt;br>
+ * &lt;b>ProtoType of stopCB&lt;/b> :- function stopCB(erroCode){}  &lt;br>
+ * &lt;b>ProtoType of errorCB&lt;/b> :- function errorCB(erroCode){} &lt;br>&lt;br>
+ *
+ * &lt;b>Note:&lt;/b> As of now callbacks are not being used. &lt;br>
+ *
+ * @constructor
+ * @param {number} port -Port number.
+ * @param {callback} startCB -Start callback.
+ * @param {callback} stopCB -Stop callback.
+ * @param {callback} errorCB -Error callback.
+ */
+var EZMQPublisher = (exports.EZMQPublisher = function(
+    port,
+    startCB,
+    stopCB,
+    errorCB
+) {
+    this.nezmqPub = new ezmqpub.NEZMQPublisher(port, startCB, stopCB, errorCB);
+});
+
+/**
+ * Starts PUB instance.
+ *
+ * @return {EZMQErrorCode} EZMQ_OK on success, otherwise appropriate error code.
+ */
+EZMQPublisher.prototype.start = function() {
+    return this.nezmqPub.start();
+};
+
+/**
+ * Publish data on the socket for subscribers with/without topic.
+ * Data can be EZMQEvent or EZMQByteData.
+ *
+ * @param {EZMQEvent/EZMQByteData} message -Message to be published.
+ * @param {string} topic -Topic on which data needs to be published.
+ *
+ * @return {EZMQErrorCode} EZMQ_OK on success, otherwise appropriate error code.
+ */
+EZMQPublisher.prototype.publish = function(message, topic) {
+    if (typeof topic === 'undefined') {
+        if (message instanceof ezmqEvent.EZMQEvent) {
+            return this.nezmqPub.publish(message.getAddonObj());
+        } else if (message instanceof ezmqByteData.EZMQByteData) {
+            return this.nezmqPub.publishByteData(message.getAddonObj());
+        }
+    }
+
+    if (typeof topic === 'string') {
+        if (message instanceof ezmqEvent.EZMQEvent) {
+            return this.nezmqPub.publishOnTopic(topic, message.getAddonObj());
+        } else if (message instanceof ezmqByteData.EZMQByteData) {
+            return this.nezmqPub.publishByteDataOnTopic(
+                topic,
+                message.getAddonObj()
+            );
+        }
+    } else {
+        if (message instanceof ezmqEvent.EZMQEvent) {
+            return this.nezmqPub.publishOnTopicList(
+                topic,
+                message.getAddonObj()
+            );
+        } else if (message instanceof ezmqByteData.EZMQByteData) {
+            return this.nezmqPub.publishByteDataOnList(
+                topic,
+                message.getAddonObj()
+            );
+        }
+    }
+};
+
+/**
+ * Get the port of the publisher.
+ *
+ * @return {number} Port number.
+ */
+EZMQPublisher.prototype.getPort = function() {
+    return this.nezmqPub.getPort();
+};
+
+/**
+ * Stops PUB instance.
+ *
+ * @return {EZMQErrorCode} EZMQ_OK on success, otherwise appropriate error code.
+ */
+EZMQPublisher.prototype.stop = function() {
+    return this.nezmqPub.stop();
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="EZMQAPI.html">EZMQAPI</a></li><li><a href="EZMQByteData.html">EZMQByteData</a></li><li><a href="EZMQEvent.html">EZMQEvent</a></li><li><a href="EZMQPublisher.html">EZMQPublisher</a></li><li><a href="EZMQReading.html">EZMQReading</a></li><li><a href="EZMQSubscriber.html">EZMQSubscriber</a></li></ul><h3>Global</h3><ul><li><a href="global.html#EZMQContentType">EZMQContentType</a></li><li><a href="global.html#EZMQErrorCode">EZMQErrorCode</a></li><li><a href="global.html#EZMQStatusCode">EZMQStatusCode</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Mar 29 2018 11:22:42 GMT+0530 (IST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
