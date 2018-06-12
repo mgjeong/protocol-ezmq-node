@@ -85,7 +85,6 @@ namespace nezmq
 
     void NEZMQSubscriber::uvAsynCallback(uv_async_t* handle)
     {
-        std::cout<< "Addon uvAsynCallback [thread]: "<<pthread_self();
         SubCBData *data =  (SubCBData *)static_cast<SubCBData*>(handle->data);
 
         //call js application callback
@@ -124,14 +123,12 @@ namespace nezmq
             ((data ->nSubscriber)->jsSubTopicCallback).Call(2, argv);
         }
 
-        std::cout <<"Addon uvAsynCallback [notify all]"<<std::endl;
         std::unique_lock<std::mutex> lock((data ->nSubscriber)->subMutex);
         ((data ->nSubscriber)->subCV).notify_all();
     }
 
     void NEZMQSubscriber::subCallback(const EZMQMessage &message,  NEZMQSubscriber *obj)
     {
-        std::cout<< "Addon subCallback [thread]: "<<pthread_self();
         SubCBData *cbData = new SubCBData();
         cbData->contentType =  message.getContentType();
         if(EZMQ_CONTENT_TYPE_PROTOBUF == cbData->contentType)
@@ -150,15 +147,12 @@ namespace nezmq
         cbData->nSubscriber = obj;
         (obj->uvAsyncHandle).data = cbData;
         int result =   uv_async_send(&(obj->uvAsyncHandle));
-        std::cout <<"Addon subCallback uv_async_send [result]: "<< result<<std::endl;
         std::unique_lock<std::mutex> lock(obj->subMutex);
-        std::cout <<"Addon subCallback wait till js callback called  "<<std::endl;
         (obj->subCV).wait(lock);
     }
 
     void NEZMQSubscriber::subTopicCallback(std::string topic,  const EZMQMessage &message, NEZMQSubscriber *obj)
     {
-        std::cout<< "Addon subTopicCallback [thread]: "<<pthread_self();
         SubCBData *cbData = new SubCBData();
         cbData->contentType =  message.getContentType();
 
@@ -180,9 +174,7 @@ namespace nezmq
         cbData->messageTopic = topic;
         (obj->uvAsyncHandle).data = cbData;
         int result =   uv_async_send(&(obj->uvAsyncHandle));
-        std::cout <<"Addon subTopicCallback uv_async_send [result]: "<< result<<std::endl;
         std::unique_lock<std::mutex> lock(obj->subMutex);
-        std::cout <<"Addon subTopicCallback wait till js callback called  "<<std::endl;
         (obj->subCV).wait(lock);
     }
 
