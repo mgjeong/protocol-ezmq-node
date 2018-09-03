@@ -11,6 +11,7 @@ DEP_ROOT=$(pwd)/dependencies
 EZMQ_TARGET_ARCH="$(uname -m)"
 EZMQ_WITH_DEP=false
 EZMQ_BUILD_MODE="release"
+EZMQ_WITH_SECURITY=true
 
 install_dependencies() {
     if [ -d "./dependencies/protocol-ezmq-cpp" ] ; then
@@ -100,23 +101,20 @@ usage() {
     echo "  --target_arch=[x86|x86_64] :  Choose Target Architecture"
     echo "  --with_dependencies=(default: false)                               :  Build ezmq-node with its dependency protocol-ezmq-cpp"
     echo "  --build_mode=[release|debug](default: release)                     :  Build protocol-ezmq-cpp library in release or debug mode"
+    echo "  --with_security=[true|false](default: true)                        :  Build ezmq library with or without Security feature"
     echo "  -c                                                                 :  Clean ezmq Repository and its dependencies"
     echo "  -h / --help                                                        :  Display help and exit"
-    echo -e "${GREEN}Examples: ${NO_COLOUR}"
-    echo -e "${BLUE}  build:-${NO_COLOUR}"
-    echo "  $ ./build_auto.sh --target_arch=x86_64"
-    echo "  $ ./build_auto.sh --with_dependencies=true --target_arch=x86_64 "
-    echo -e "${BLUE}  debug mode build:-${NO_COLOUR}"
-    echo "  $ ./build_auto.sh --target_arch=x86_64 --build_mode=debug"
-    echo -e "${BLUE}  clean:-${NO_COLOUR}"
-    echo "  $ ./build_auto.sh -c"
-    echo -e "${BLUE}  help:-${NO_COLOUR}"
-    echo "  $ ./build_auto.sh -h"
     echo -e "${GREEN}Notes: ${NO_COLOUR}"
     echo "  - While building newly for any architecture use -with_dependencies=true option."
+    echo "  - Before running script, Make sure libsodium is installed, it can be installed using:"
+    echo "    $ sudo apt-get install libsodium-dev"
 }
 
 build() {
+    echo -e "${GREEN}Target Arch is: $EZMQ_TARGET_ARCH${NO_COLOUR}"
+    echo -e "${GREEN}Build mode is: $EZMQ_BUILD_MODE${NO_COLOUR}"
+    echo -e "${GREEN}Build with depedencies: ${EZMQ_WITH_DEP}${NO_COLOUR}"
+    echo -e "${GREEN}Is security enabled: $EZMQ_WITH_SECURITY${NO_COLOUR}"
     if [ "x86" = ${EZMQ_TARGET_ARCH} ]; then
          build_x86; exit 0;
     elif [ "x86_64" = ${EZMQ_TARGET_ARCH} ]; then
@@ -137,26 +135,28 @@ process_cmd_args() {
         case "$1" in
             --with_dependencies=*)
                 EZMQ_WITH_DEP="${1#*=}";
-                if [ ${EZMQ_WITH_DEP} = true ]; then
-                    echo -e "${BLUE}Build with depedencies${NO_COLOUR}"
-                elif [ ${EZMQ_WITH_DEP} = false ]; then
-                    echo -e "${BLUE}Build without depedencies${NO_COLOUR}"
-                else
-                    echo -e "${BLUE}Build without depedencies${NO_COLOUR}"
+                if [ ${EZMQ_WITH_DEP} != true ] && [ ${EZMQ_WITH_DEP} != false ]; then
+                    echo -e "${RED}Unknown option for --with_dependencies${NO_COLOUR}"
                     shift 1; exit 0
                 fi
                 shift 1;
                 ;;
             --target_arch=*)
                 EZMQ_TARGET_ARCH="${1#*=}";
-                echo -e "${GREEN}Target Arch is: $EZMQ_TARGET_ARCH${NO_COLOUR}"
                 shift 1
                 ;;
             --build_mode=*)
                 EZMQ_BUILD_MODE="${1#*=}";
-                echo -e "${GREEN}Build mode is: $EZMQ_BUILD_MODE${NO_COLOUR}"
                 shift 1;
                 ;;
+            --with_security=*)
+                EZMQ_WITH_SECURITY="${1#*=}";
+                if [ ${EZMQ_WITH_SECURITY} != true ] && [ ${EZMQ_WITH_SECURITY} != false ]; then
+                    echo -e "${RED}Unknown option for --with_security${NO_COLOUR}"
+                    shift 1; exit 0
+                fi              
+                shift 1;
+                ;;  
             -c)
                 clean_ezmq
                 shift 1; exit 0
