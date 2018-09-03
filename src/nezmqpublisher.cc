@@ -19,6 +19,8 @@
 #include "nezmqevent.h"
 #include "nezmqbytedata.h"
 
+#include <node.h>
+
 using namespace v8;
 
 namespace nezmq
@@ -31,6 +33,7 @@ namespace nezmq
         tpl->InstanceTemplate()->SetInternalFieldCount(1);
 
         // Function Prototypes
+        Nan::SetPrototypeMethod(tpl, "setServerPrivateKey", SetServerPrivateKey);
         Nan::SetPrototypeMethod(tpl, "start", Start);
         Nan::SetPrototypeMethod(tpl, "publish", Publish);
         Nan::SetPrototypeMethod(tpl, "publishOnTopic", PublishOnTopic);
@@ -92,6 +95,21 @@ namespace nezmq
         }
         else
         {
+        }
+    }
+
+    NAN_METHOD(NEZMQPublisher::SetServerPrivateKey)
+    {
+        Local<String> key = Local<String>::Cast(info[0]);
+        String::Utf8Value utfValue(key);
+        NEZMQPublisher* obj = ObjectWrap::Unwrap<NEZMQPublisher>(info.Holder());
+        try
+        {
+            info.GetReturnValue().Set(Nan::New<Integer>((obj->nativeHandle)->setServerPrivateKey(*utfValue)));
+        }
+        catch(std::exception &e)
+        {
+            Nan::ThrowError(e.what());
         }
     }
 

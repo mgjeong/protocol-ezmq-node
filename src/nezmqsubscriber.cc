@@ -42,9 +42,12 @@ namespace nezmq
 
         // Function Prototypes
         Nan::SetPrototypeMethod(tpl, "start", Start);
+        Nan::SetPrototypeMethod(tpl, "setClientKeys", SetClientKeys);
+        Nan::SetPrototypeMethod(tpl, "setServerPublicKey", SetServerPublicKey);
         Nan::SetPrototypeMethod(tpl, "subscribe", Subscribe);
         Nan::SetPrototypeMethod(tpl, "subscribeOnTopic", SubscribeOnTopic);
         Nan::SetPrototypeMethod(tpl, "subscribeOnList", SubscribeOnList);
+        Nan::SetPrototypeMethod(tpl, "subscribeWithIPPort", SubscribeWithIPPort);
         Nan::SetPrototypeMethod(tpl, "unSubscribe", UnSubscribe);
         Nan::SetPrototypeMethod(tpl, "unSubscribeOnTopic", UnSubscribeOnTopic);
         Nan::SetPrototypeMethod(tpl, "unSubscribeOnList", UnSubscribeOnList);
@@ -209,6 +212,38 @@ namespace nezmq
         }
     }
 
+    NAN_METHOD(NEZMQSubscriber::SetClientKeys)
+    {
+        NEZMQSubscriber* obj = ObjectWrap::Unwrap<NEZMQSubscriber>(info.Holder());
+        Local<String> clientPrivateKey = Local<String>::Cast(info[0]);
+        String::Utf8Value privateKey(clientPrivateKey);
+        Local<String> clientPublicKey = Local<String>::Cast(info[1]);
+        String::Utf8Value publicKey(clientPublicKey);
+        try
+        {
+            info.GetReturnValue().Set(Nan::New<Integer>((obj->nativeHandle)->setClientKeys(*privateKey, *publicKey)));
+        }
+        catch(std::exception &e)
+        {
+            Nan::ThrowError(e.what());
+        }
+    }
+
+    NAN_METHOD(NEZMQSubscriber::SetServerPublicKey)
+    {
+        NEZMQSubscriber* obj = ObjectWrap::Unwrap<NEZMQSubscriber>(info.Holder());
+        Local<String> serverPublicKey = Local<String>::Cast(info[0]);
+        String::Utf8Value publicKey(serverPublicKey);
+        try
+        {
+            info.GetReturnValue().Set(Nan::New<Integer>((obj->nativeHandle)->setServerPublicKey(*publicKey)));
+        }
+        catch(std::exception &e)
+        {
+            Nan::ThrowError(e.what());
+        }
+    }
+
     NAN_METHOD(NEZMQSubscriber::Start)
     {
         NEZMQSubscriber* obj = ObjectWrap::Unwrap<NEZMQSubscriber>(info.Holder());
@@ -242,6 +277,17 @@ namespace nezmq
             nativeList.push_back(*utfValue);
         }
         info.GetReturnValue().Set(Nan::New<Integer>((obj->nativeHandle)->subscribe(nativeList)));
+    }
+
+    NAN_METHOD(NEZMQSubscriber::SubscribeWithIPPort)
+    {
+        NEZMQSubscriber* obj = ObjectWrap::Unwrap<NEZMQSubscriber>(info.Holder());
+        Local<String> ipAddress = Local<String>::Cast(info[0]);
+        String::Utf8Value ip(ipAddress);
+        int port = info[1]->NumberValue();
+        Local<String> topicJs = Local<String>::Cast(info[2]);
+        String::Utf8Value topic(topicJs);
+        info.GetReturnValue().Set(Nan::New<Integer>((obj->nativeHandle)->subscribe(*ip, port, *topic)));
     }
 
     NAN_METHOD(NEZMQSubscriber::UnSubscribe)
