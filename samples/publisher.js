@@ -75,20 +75,25 @@ function printError() {
     console.log('Re-run the application as shown in below examples: \n');
     console.log('  (1) For publishing without topic: ');
     console.log('       $ node publisher -port 5562\n');
-    console.log('  (2) For publishing with topic: ');
-    console.log('       $ node publisher -port 5562 -t topic1');
+    console.log('  (2) For publishing without topic[Secured]:');
+    console.log('       $ node publisher -port 5562 -secured 1\n');
+    console.log('  (3) For publishing with topic: ');
+    console.log('       $ node publisher -port 5562 -t topic1\n');
+    console.log('  (4) For publishing with topic [Secured]: ');
+    console.log('       $ node publisher -port 5562 -t topic1 -secured 1\n');
     process.exit();
 }
 
 //Process command line arguments
 var argc = process.argv.length;
-if (argc != 4 && argc != 6) {
+if (argc != 4 && argc != 6 && argc != 8) {
     printError();
 }
 
 var n = 2;
 var port;
 var topic;
+var isSecured = 0;
 while (n < argc) {
     if ('-port' === process.argv[n]) {
         port = process.argv[n + 1];
@@ -97,6 +102,10 @@ while (n < argc) {
     } else if ('-t' === process.argv[n]) {
         topic = process.argv[n + 1];
         console.log('Topic is : ' + topic);
+        n = n + 2;
+    } else if ('-secured' === process.argv[n]) {
+        isSecured = process.argv[n + 1];
+        console.log('isSecured  : ' + isSecured);
         n = n + 2;
     } else {
         printError();
@@ -113,6 +122,21 @@ if (result !== ezmq.EZMQErrorCode.EZMQ_OK) {
 console.log('EZMQ initialize [Result]: ' + result);
 
 var ezmqPub = new ezmq.EZMQPublisher(port, startCB, stopCB, errorCB);
+
+if (isSecured) {
+    try {
+        var severPrivatekey = "[:X%Q3UfY+kv2A^.wv:(qy2E=bk0L][cm=mS3Hcx";
+        result = ezmqPub.setServerPrivateKey(severPrivatekey);
+    } catch (err) {
+        console.log('setServerPrivateKey [exception]:  ' + err.message);
+        process.exit();
+    }
+    if (result !== ezmq.EZMQErrorCode.EZMQ_OK) {
+        console.log('setServerPrivateKey failed');
+        process.exit();
+    }
+}
+
 result = ezmqPub.start();
 if (result !== ezmq.EZMQErrorCode.EZMQ_OK) {
     console.log('Publisher start failed');
@@ -130,16 +154,16 @@ for (i = 0; i < 15; i++) {
     if (typeof topic !== 'string') {
         console.log(
             'Published event[Protobuf]:  ' +
-                (i + 1) +
-                ' [Result]: ' +
-                ezmqPub.publish(protoEvent)
+            (i + 1) +
+            ' [Result]: ' +
+            ezmqPub.publish(protoEvent)
         );
     } else {
         console.log(
             'Published event[Protobuf]:  ' +
-                (i + 1) +
-                ' [Result]: ' +
-                ezmqPub.publish(protoEvent, topic)
+            (i + 1) +
+            ' [Result]: ' +
+            ezmqPub.publish(protoEvent, topic)
         );
     }
     sleep(1);

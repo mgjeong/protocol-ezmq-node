@@ -73,19 +73,19 @@ function subTopicCallback(topic, ezmqEvent) {
 function printError() {
     console.log('Re-run the application as shown in below examples: \n');
     console.log('  (1) For subscribing without topic: ');
-    console.log('       $ node subscriber -ip 107.108.81.116 -port 5562');
-    console.log('       $ node subscriber -ip localhost -port 5562\n');
-    console.log('  (2) For subscribing with topic: ');
-    console.log(
-        '       $ node subscriber -ip 107.108.81.116 -port 5562 -t topic1'
-    );
-    console.log('       $ node subscriber -ip localhost -port 5562 -t topic1');
+    console.log('       $ node subscriber -ip 192.168.0.1 -port 5562\n');
+    console.log('  (2) For subscribing without topic [Secured]: ');
+    console.log('       $ node subscriber -ip 192.168.0.1 -port 5562 -secured 1\n');
+    console.log('  (3) For subscribing with topic: ');
+    console.log('       $ node subscriber -ip 192.168.0.1 -port 5562 -t topic1\n');
+    console.log('  (4) For subscribing with topic [Secured]: ');
+    console.log('       $ node subscriber -ip 192.168.0.1 -port 5562 -t topic1 -secured 1');
     process.exit();
 }
 
 //Process command line arguments
 var argc = process.argv.length;
-if (argc != 6 && argc != 8) {
+if (argc != 6 && argc != 8 && argc != 10) {
     printError();
 }
 
@@ -93,6 +93,7 @@ var n = 2;
 var ip;
 var port;
 var topic;
+var isSecured = 0;
 while (n < argc) {
     if ('-ip' === process.argv[n]) {
         ip = process.argv[n + 1];
@@ -106,6 +107,10 @@ while (n < argc) {
     } else if ('-t' === process.argv[n]) {
         topic = process.argv[n + 1];
         console.log('Topic is : ' + topic);
+        n = n + 2;
+    } else if ('-secured' === process.argv[n]) {
+        isSecured = process.argv[n + 1];
+        console.log('isSecured : ' + isSecured);
         n = n + 2;
     } else {
         printError();
@@ -122,6 +127,28 @@ if (result !== ezmq.EZMQErrorCode.EZMQ_OK) {
 console.log('EZMQ Initailize [Result] : ' + result);
 
 var ezmqSub = new ezmq.EZMQSubscriber(ip, port, subCallback, subTopicCallback);
+
+if (isSecured) {
+    try {
+        var clientSecretKey = "ZB1@RS6Kv^zucova$kH(!o>tZCQ.<!Q)6-0aWFmW";
+        var clientPublicKey = "-QW?Ved(f:<::3d5tJ$[4Er&]6#9yr=vha/caBc(";
+        result = ezmqSub.setClientKeys(clientSecretKey, clientPublicKey);
+        if (result !== ezmq.EZMQErrorCode.EZMQ_OK) {
+            console.log('setClientKeys failed');
+            process.exit();
+        }
+        var serverPublicKey = "tXJx&1^QE2g7WCXbF.$$TVP.wCtxwNhR8?iLi&S<";
+        result = ezmqSub.setServerPublicKey(serverPublicKey);
+        if (result !== ezmq.EZMQErrorCode.EZMQ_OK) {
+            console.log('setServerPublicKey failed');
+            process.exit();
+        }
+    } catch (err) {
+        console.log('set key [exception]:  ' + err.message);
+        process.exit();
+    }
+}
+
 result = ezmqSub.start();
 if (result !== ezmq.EZMQErrorCode.EZMQ_OK) {
     console.log('Subscriber start failed');
