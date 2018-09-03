@@ -15,6 +15,11 @@ and serialization / deserialization middlewares along with some added functional
 - npm
   - Version : 5.6.0
   
+- You must install **libsodium**:
+   ```
+   $ sudo apt-get install libsodium-dev 
+   ```
+  
 ## How to build ##
 1. Goto: ~/protocol-ezmq-node/
 2. Following are the scripts for building ezmq library:</br>
@@ -50,7 +55,7 @@ and serialization / deserialization middlewares along with some added functional
 ## Running unit test cases ##
 
 ### Prerequisites ###
- Built protocol-ezmq-node.
+ Built protocol-ezmq-node in secured mode.
  
 ### Unit test ### 
 1. Goto: ~/protocol-ezmq-node/

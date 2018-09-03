@@ -30,14 +30,7 @@
     
         <h2><span class="attribs"><span class="type-signature"></span></span>EZMQPublisher<span class="signature">(port, startCB, stopCB, errorCB)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">This class represent EZMQPublisher. It contains APIs to
-             start/stop publisher and to publish data. <br><br>
-
-<b>ProtoType of startCB</b> :- function startCB(erroCode) {} <br>
-<b>ProtoType of stopCB</b> :- function stopCB(erroCode){}  <br>
-<b>ProtoType of errorCB</b> :- function errorCB(erroCode){} <br><br>
-
-<b>Note:</b> As of now callbacks are not being used. <br></div>
+            <div class="class-description">This class represent EZMQPublisher. It contains APIs to             start/stop publisher and to publish data. <br><br><b>ProtoType of startCB</b> :- function startCB(erroCode) {} <br><b>ProtoType of stopCB</b> :- function stopCB(erroCode){}  <br><b>ProtoType of errorCB</b> :- function errorCB(erroCode){} <br><br><b>Note:</b> As of now callbacks are not being used. <br></div>
         
     
 </header>
@@ -324,7 +317,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ezmqpublisher.js.html">ezmqpublisher.js</a>, <a href="ezmqpublisher.js.html#line108">line 108</a>
+        <a href="ezmqpublisher.js.html">ezmqpublisher.js</a>, <a href="ezmqpublisher.js.html#line131">line 131</a>
     </li></ul></dd>
     
 
@@ -388,8 +381,7 @@
 
 
 <div class="description">
-    Publish data on the socket for subscribers with/without topic.
-Data can be EZMQEvent or EZMQByteData.
+    Publish data on the socket for subscribers with/without topic/s.Data can be EZMQEvent or EZMQByteData.<br><b>Note:</b> <br>(1) If API is called without topic, it will publish without topic. <br>(2) Topic can be a single topic [String] or list of topic [String list]. <br>(3) Topic name should be as path format. For example: home/livingroom/<br>(4) Topic name can have letters [a-z, A-z], numerics [0-9] and special characters _ - . and /
 </div>
 
 
@@ -454,7 +446,7 @@ Data can be EZMQEvent or EZMQByteData.
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">string/stringlist</span>
 
 
             
@@ -464,7 +456,7 @@ Data can be EZMQEvent or EZMQByteData.
 
             
 
-            <td class="description last">Topic on which data needs to be published.</td>
+            <td class="description last">Topic/s on which data needs to be published.</td>
         </tr>
 
     
@@ -505,7 +497,7 @@ Data can be EZMQEvent or EZMQByteData.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ezmqpublisher.js.html">ezmqpublisher.js</a>, <a href="ezmqpublisher.js.html#line70">line 70</a>
+        <a href="ezmqpublisher.js.html">ezmqpublisher.js</a>, <a href="ezmqpublisher.js.html#line93">line 93</a>
     </li></ul></dd>
     
 
@@ -526,6 +518,175 @@ Data can be EZMQEvent or EZMQByteData.
 
 
 
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    EZMQ_OK on success, otherwise appropriate error code.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#EZMQErrorCode">EZMQErrorCode</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="setServerPrivateKey"><span class="type-signature"></span>setServerPrivateKey<span class="signature">(serverPrivateKey)</span><span class="type-signature"> &rarr; {<a href="global.html#EZMQErrorCode">EZMQErrorCode</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Set the server private/secret key.<br><b>Note:</b> <br>(1) Key should be 40-character string encoded in the Z85 encoding format <br>(2) This API should be called before start() API.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>serverPrivateKey</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Server private/Secret key.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ezmqpublisher.js.html">ezmqpublisher.js</a>, <a href="ezmqpublisher.js.html#line65">line 65</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+    <div class="param-desc">
+    
+        Will throw an error, if security is not enabled while building.
+    
+    </div>
+
+
+    
 
 
 <h5>Returns:</h5>
@@ -613,7 +774,7 @@ Data can be EZMQEvent or EZMQByteData.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ezmqpublisher.js.html">ezmqpublisher.js</a>, <a href="ezmqpublisher.js.html#line57">line 57</a>
+        <a href="ezmqpublisher.js.html">ezmqpublisher.js</a>, <a href="ezmqpublisher.js.html#line74">line 74</a>
     </li></ul></dd>
     
 
@@ -721,7 +882,7 @@ Data can be EZMQEvent or EZMQByteData.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ezmqpublisher.js.html">ezmqpublisher.js</a>, <a href="ezmqpublisher.js.html#line117">line 117</a>
+        <a href="ezmqpublisher.js.html">ezmqpublisher.js</a>, <a href="ezmqpublisher.js.html#line140">line 140</a>
     </li></ul></dd>
     
 
@@ -793,7 +954,7 @@ Data can be EZMQEvent or EZMQByteData.
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Mar 29 2018 11:22:42 GMT+0530 (IST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Aug 30 2018 22:05:58 GMT+0530 (IST)
 </footer>
 
 <script> prettyPrint(); </script>
