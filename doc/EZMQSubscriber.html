@@ -30,13 +30,7 @@
     
         <h2><span class="attribs"><span class="type-signature"></span></span>EZMQSubscriber<span class="signature">(ip, port, subCB, subTopicCB)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">This class represent EZMQSubscriber. It contains APIs to
-             start/stop subscriber and to subscribe for data.<br><br>
-
-<b>ProtoType of subCB</b> :-  function subCallback(event) {}<br>
-<b>ProtoType of subTopicCB</b> :- function subTopicCallback(topic, event){}<br><br>
-
-In callback event will be <b>EZMQEvent/EZMQByteData</b><br></div>
+            <div class="class-description">This class represent EZMQSubscriber. It contains APIs to             start/stop subscriber and to subscribe for data.<br><br><b>ProtoType of subCB</b> :-  function subCallback(event) {}<br><b>ProtoType of subTopicCB</b> :- function subTopicCallback(topic, event){}<br><br>In callback event will be <b>EZMQEvent/EZMQByteData</b><br></div>
         
     
 </header>
@@ -323,7 +317,7 @@ In callback event will be <b>EZMQEvent/EZMQByteData</b><br></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ezmqsubscriber.js.html">ezmqsubscriber.js</a>, <a href="ezmqsubscriber.js.html#line140">line 140</a>
+        <a href="ezmqsubscriber.js.html">ezmqsubscriber.js</a>, <a href="ezmqsubscriber.js.html#line210">line 210</a>
     </li></ul></dd>
     
 
@@ -431,7 +425,7 @@ In callback event will be <b>EZMQEvent/EZMQByteData</b><br></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ezmqsubscriber.js.html">ezmqsubscriber.js</a>, <a href="ezmqsubscriber.js.html#line149">line 149</a>
+        <a href="ezmqsubscriber.js.html">ezmqsubscriber.js</a>, <a href="ezmqsubscriber.js.html#line219">line 219</a>
     </li></ul></dd>
     
 
@@ -470,6 +464,367 @@ In callback event will be <b>EZMQEvent/EZMQByteData</b><br></div>
     <dd>
         
 <span class="param-type">number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="setClientKeys"><span class="type-signature"></span>setClientKeys<span class="signature">(clientPrivateKey, clientPublicKey)</span><span class="type-signature"> &rarr; {<a href="global.html#EZMQErrorCode">EZMQErrorCode</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Set the security keys of client/its own.<br><b>Note:</b> <br>(1) Key should be 40-character string encoded in the Z85 encoding format <br>(2) This API should be called before start() API.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>clientPrivateKey</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Client private/secret key.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>clientPublicKey</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Client public key.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ezmqsubscriber.js.html">ezmqsubscriber.js</a>, <a href="ezmqsubscriber.js.html#line93">line 93</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+    <div class="param-desc">
+    
+        Will throw an error, if security is not enabled while building.
+    
+    </div>
+
+
+    
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    EZMQ_OK on success, otherwise appropriate error code.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#EZMQErrorCode">EZMQErrorCode</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="setServerPublicKey"><span class="type-signature"></span>setServerPublicKey<span class="signature">(serverPublicKey)</span><span class="type-signature"> &rarr; {<a href="global.html#EZMQErrorCode">EZMQErrorCode</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Set the server public key.<br><b>Note:</b> <br>(1) Key should be 40-character string encoded in the Z85 encoding format <br>(2) This API should be called before start() API.(3) If using the following API in secured mode: <br>     subscribeWithIPPort then,     setServerPublicKey API needs to be called before that.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>serverPublicKey</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Server public key.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ezmqsubscriber.js.html">ezmqsubscriber.js</a>, <a href="ezmqsubscriber.js.html#line113">line 113</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+    <div class="param-desc">
+    
+        Will throw an error, if security is not enabled while building.
+    
+    </div>
+
+
+    
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    EZMQ_OK on success, otherwise appropriate error code.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#EZMQErrorCode">EZMQErrorCode</a></span>
 
 
     </dd>
@@ -539,7 +894,7 @@ In callback event will be <b>EZMQEvent/EZMQByteData</b><br></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ezmqsubscriber.js.html">ezmqsubscriber.js</a>, <a href="ezmqsubscriber.js.html#line84">line 84</a>
+        <a href="ezmqsubscriber.js.html">ezmqsubscriber.js</a>, <a href="ezmqsubscriber.js.html#line122">line 122</a>
     </li></ul></dd>
     
 
@@ -647,7 +1002,7 @@ In callback event will be <b>EZMQEvent/EZMQByteData</b><br></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ezmqsubscriber.js.html">ezmqsubscriber.js</a>, <a href="ezmqsubscriber.js.html#line131">line 131</a>
+        <a href="ezmqsubscriber.js.html">ezmqsubscriber.js</a>, <a href="ezmqsubscriber.js.html#line201">line 201</a>
     </li></ul></dd>
     
 
@@ -711,9 +1066,7 @@ In callback event will be <b>EZMQEvent/EZMQByteData</b><br></div>
 
 
 <div class="description">
-    Subscribe for event/messages.
-This API can be called to subscribe for all events or
-subscribe events for given topic.
+    Subscribe for event/messages. This API can be called to subscribe for all events orsubscribe events for given topic/s.<br><b>Note:</b> <br>(1) If API is called without topic, it will subscribe for all the events. <br>(2) Topic can be a single topic [String] or list of topic [String list]. <br>(3) Topic name should be as path format. For example: home/livingroom/<br>(4) Topic name can have letters [a-z, A-z], numerics [0-9] and special characters _ - . and /
 </div>
 
 
@@ -755,7 +1108,7 @@ subscribe events for given topic.
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">string/stringlist</span>
 
 
             
@@ -806,7 +1159,210 @@ subscribe events for given topic.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ezmqsubscriber.js.html">ezmqsubscriber.js</a>, <a href="ezmqsubscriber.js.html#line97">line 97</a>
+        <a href="ezmqsubscriber.js.html">ezmqsubscriber.js</a>, <a href="ezmqsubscriber.js.html#line140">line 140</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    EZMQ_OK on success, otherwise appropriate error code.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#EZMQErrorCode">EZMQErrorCode</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="subscribeWithIPPort"><span class="type-signature"></span>subscribeWithIPPort<span class="signature">(ip, port, topic)</span><span class="type-signature"> &rarr; {<a href="global.html#EZMQErrorCode">EZMQErrorCode</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Subscribe for event/messages from given IP:Port on the given topic.<br><b>Note:</b> <br>(1) It will be using same Subscriber socket for connecting to given ip:port. <br>(2) To unsubcribe use un-subscribe API with the same topic. <br>(3) Topic name should be as path format. For example: home/livingroom/ <br>(4) Topic name can have letters [a-z, A-z], numerics [0-9] and special characters _ - . and / <br>(5) Topic will be appended with forward slash [/] in case, if application has not appended it <br>(6) If using in secured mode: Call setServerPublicKey(serverPublicKey) API with target server     public key before calling this API.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>ip</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Target[Publisher] IP address.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>port</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Target[Publisher] Port number.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>topic</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Topic to be subscribed.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ezmqsubscriber.js.html">ezmqsubscriber.js</a>, <a href="ezmqsubscriber.js.html#line168">line 168</a>
     </li></ul></dd>
     
 
@@ -870,9 +1426,7 @@ subscribe events for given topic.
 
 
 <div class="description">
-    Un-Subscribe for event/messages.
-This API can be called to unSubscribe for all events or
-unSubscribe events for given topic.
+    Un-Subscribe for event/messages. This API can be called to unSubscribe for all events orunSubscribe events for given topic/s.<br><b>Note:</b> <br>(1) If API is called without topic, it will unsubscribe for all the events. <br>(2) Topic can be a single topic [String] or list of topic [String list]. <br>(3) Topic name should be as path format. For example: home/livingroom/<br>(4) Topic name can have letters [a-z, A-z], numerics [0-9] and special characters _ - . and /
 </div>
 
 
@@ -914,7 +1468,7 @@ unSubscribe events for given topic.
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">string/stringlist</span>
 
 
             
@@ -965,7 +1519,7 @@ unSubscribe events for given topic.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ezmqsubscriber.js.html">ezmqsubscriber.js</a>, <a href="ezmqsubscriber.js.html#line116">line 116</a>
+        <a href="ezmqsubscriber.js.html">ezmqsubscriber.js</a>, <a href="ezmqsubscriber.js.html#line186">line 186</a>
     </li></ul></dd>
     
 
@@ -1037,7 +1591,7 @@ unSubscribe events for given topic.
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Mar 29 2018 11:22:42 GMT+0530 (IST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Aug 30 2018 22:05:58 GMT+0530 (IST)
 </footer>
 
 <script> prettyPrint(); </script>

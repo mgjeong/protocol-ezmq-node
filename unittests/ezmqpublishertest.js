@@ -59,6 +59,19 @@ describe('#publishOnTopicList()', function() {
     });
 });
 
+describe('#publishSecured', function() {
+    it('should return EZMQ_OK', function() {
+        var severPrivatekey = "[:X%Q3UfY+kv2A^.wv:(qy2E=bk0L][cm=mS3Hcx";
+        try {
+            assert.equal(ezmqPub.setServerPrivateKey(severPrivatekey), ezmq.EZMQErrorCode.EZMQ_OK);
+        } catch (err) {}
+        assert.equal(ezmqPub.publish(protoEvent()), ezmq.EZMQErrorCode.EZMQ_OK);
+        var array = new Uint8Array(4);
+        var ezmqByteData = new ezmq.EZMQByteData(array, 4);
+        assert.equal(ezmqPub.publish(ezmqByteData), ezmq.EZMQErrorCode.EZMQ_OK);
+    });
+});
+
 describe('#getPort()', function() {
     it('should return 5562', function() {
         assert.equal(ezmqPub.getPort(), port);

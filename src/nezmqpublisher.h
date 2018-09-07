@@ -43,6 +43,7 @@ namespace nezmq
             ~NEZMQPublisher();
 
             static NAN_METHOD(New);
+            static NAN_METHOD(SetServerPrivateKey);
             static NAN_METHOD(Start);
             static NAN_METHOD(Publish);
             static NAN_METHOD(PublishOnTopic);

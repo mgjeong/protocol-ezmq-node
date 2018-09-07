@@ -37,6 +37,21 @@ describe('#subscribeOnTopicList()', function() {
     });
 });
 
+describe('#subscribeSecured()', function() {
+    it('should return EZMQ_OK', function() {
+        var clientSecretKey = "ZB1@RS6Kv^zucova$kH(!o>tZCQ.<!Q)6-0aWFmW";
+        var clientPublicKey = "-QW?Ved(f:<::3d5tJ$[4Er&]6#9yr=vha/caBc(";
+        var serverPublicKey = "tXJx&1^QE2g7WCXbF.$$TVP.wCtxwNhR8?iLi&S<";
+        try {
+            assert.equal(ezmqSub.setClientKeys(clientSecretKey, clientPublicKey), ezmq.EZMQErrorCode.EZMQ_OK);
+            assert.equal(ezmqSub.setServerPublicKey(serverPublicKey), ezmq.EZMQErrorCode.EZMQ_OK);
+        } catch (err) {}
+        assert.equal(ezmqSub.start(), ezmq.EZMQErrorCode.EZMQ_OK);
+        assert.equal(ezmqSub.subscribe(), ezmq.EZMQErrorCode.EZMQ_OK);
+        assert.equal(ezmqSub.subscribeWithIPPort(ip, port, "topic"), ezmq.EZMQErrorCode.EZMQ_OK);
+    });
+});
+
 describe('#unSubscribe()', function() {
     it('should return EZMQ_OK', function() {
         assert.equal(ezmqSub.unSubscribe(), ezmq.EZMQErrorCode.EZMQ_OK);

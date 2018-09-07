@@ -48,10 +48,13 @@ namespace nezmq
             ~NEZMQSubscriber();
 
             static NAN_METHOD(New);
+            static NAN_METHOD(SetClientKeys);
+            static NAN_METHOD(SetServerPublicKey);
             static NAN_METHOD(Start);
             static NAN_METHOD(Subscribe);
             static NAN_METHOD(SubscribeOnTopic);
             static NAN_METHOD(SubscribeOnList);
+            static NAN_METHOD(SubscribeWithIPPort);
             static NAN_METHOD(UnSubscribe);
             static NAN_METHOD(UnSubscribeOnTopic);
             static NAN_METHOD(UnSubscribeOnList);
