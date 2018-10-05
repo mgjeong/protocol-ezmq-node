@@ -26,22 +26,14 @@ install_dependencies() {
 
     cd ./dependencies/protocol-ezmq-cpp
 
-    # Build ezmq-protocol-cpp for given architecture [x86/x86_64]
+    # Build ezmq-protocol-cpp for given architecture [x86/x86_64/armhf]
     echo -e "${GREEN}Installing ezmq library and its dependencies${NO_COLOUR}"
-    if [ "x86" = ${EZMQ_TARGET_ARCH} ]; then
-        if [ "debug" = ${EZMQ_BUILD_MODE} ]; then
-            ./build_auto.sh --with_dependencies=true --target_arch=x86 --build_mode=debug
-        else
-            ./build_auto.sh --with_dependencies=true --target_arch=x86
-        fi
-    elif [ "x86_64" = ${EZMQ_TARGET_ARCH} ]; then
-        if [ "debug" = ${EZMQ_BUILD_MODE} ]; then
-            ./build_auto.sh --with_dependencies=true --target_arch=x86_64 --build_mode=debug
-        else
-            ./build_auto.sh --with_dependencies=true --target_arch=x86_64
-        fi
+    if [ "armhf" = ${EZMQ_TARGET_ARCH} ]; then
+        ./build_auto.sh --with_dependencies=${EZMQ_WITH_DEP} --target_arch=armhf-native --build_mode=${EZMQ_BUILD_MODE} --with_security=${EZMQ_WITH_SECURITY}
+    else 
+        ./build_auto.sh --with_dependencies=${EZMQ_WITH_DEP} --target_arch=${EZMQ_TARGET_ARCH} --build_mode=${EZMQ_BUILD_MODE} --with_security=${EZMQ_WITH_SECURITY}
     fi
-
+    
     echo -e "${GREEN}Installing node-gyp${NO_COLOUR}"
     npm install node-gyp
     echo -e "${GREEN}Installing NAN${NO_COLOUR}"
@@ -57,10 +49,6 @@ install_dependencies() {
 }
 
 build_x86() {
-    echo -e "Building for x86"
-    if [ ${EZMQ_WITH_DEP} = true ]; then
-        install_dependencies
-    fi
     cd $PROJECT_ROOT
     node_modules/node-gyp/bin/node-gyp.js clean
     if [ "debug" = ${EZMQ_BUILD_MODE} ]; then
@@ -69,14 +57,9 @@ build_x86() {
         node_modules/node-gyp/bin/node-gyp.js --config=x86_release configure
     fi
     node_modules/node-gyp/bin/node-gyp.js build
-    echo -e "${GREEN}Installation of ezmq addon done${NO_COLOUR}"
 }
 
 build_x86_64() {
-    echo -e "Building for x86_64"
-    if [ ${EZMQ_WITH_DEP} = true ]; then
-        install_dependencies
-    fi
     cd $PROJECT_ROOT
     node_modules/node-gyp/bin/node-gyp.js clean
     if [ "debug" = ${EZMQ_BUILD_MODE} ]; then
@@ -85,7 +68,17 @@ build_x86_64() {
         node_modules/node-gyp/bin/node-gyp.js --config=x86_64_release configure
     fi
     node_modules/node-gyp/bin/node-gyp.js build
-    echo -e "${GREEN}Installation of ezmq addon done${NO_COLOUR}"
+}
+
+build_armhf() {
+    cd $PROJECT_ROOT
+    node_modules/node-gyp/bin/node-gyp.js clean
+    if [ "debug" = ${EZMQ_BUILD_MODE} ]; then
+        node_modules/node-gyp/bin/node-gyp.js --config=armhf_debug configure
+    else
+        node_modules/node-gyp/bin/node-gyp.js --config=armhf_release configure
+    fi
+    node_modules/node-gyp/bin/node-gyp.js build
 }
 
 clean_ezmq() {
@@ -98,8 +91,8 @@ clean_ezmq() {
 usage() {
     echo -e "${BLUE}Usage:${NO_COLOUR} ./build_auto.sh <option>"
     echo -e "${GREEN}Options:${NO_COLOUR}"
-    echo "  --target_arch=[x86|x86_64] :  Choose Target Architecture"
-    echo "  --with_dependencies=(default: false)                               :  Build ezmq-node with its dependency protocol-ezmq-cpp"
+    echo "  --target_arch=[x86|x86_64|armhf]                                   :  Choose Target Architecture"
+    echo "  --with_dependencies=[true|false](default: false)                   :  Build ezmq-node with its dependency protocol-ezmq-cpp"
     echo "  --build_mode=[release|debug](default: release)                     :  Build protocol-ezmq-cpp library in release or debug mode"
     echo "  --with_security=[true|false](default: true)                        :  Build ezmq library with or without Security feature"
     echo "  -c                                                                 :  Clean ezmq Repository and its dependencies"
@@ -115,14 +108,20 @@ build() {
     echo -e "${GREEN}Build mode is: $EZMQ_BUILD_MODE${NO_COLOUR}"
     echo -e "${GREEN}Build with depedencies: ${EZMQ_WITH_DEP}${NO_COLOUR}"
     echo -e "${GREEN}Is security enabled: $EZMQ_WITH_SECURITY${NO_COLOUR}"
+    if [ ${EZMQ_WITH_DEP} = true ]; then
+        install_dependencies
+    fi
     if [ "x86" = ${EZMQ_TARGET_ARCH} ]; then
-         build_x86; exit 0;
+         build_x86;
     elif [ "x86_64" = ${EZMQ_TARGET_ARCH} ]; then
-         build_x86_64; exit 0;
+         build_x86_64;
+    elif [ "armhf" = ${EZMQ_TARGET_ARCH} ]; then
+         build_armhf;
     else
          echo -e "${RED}Not a supported architecture${NO_COLOUR}"
          usage; exit 1;
     fi
+    echo -e "${GREEN}Installation of ezmq addon done${NO_COLOUR}"
 }
 
 process_cmd_args() {
@@ -184,5 +183,9 @@ process_cmd_args() {
 }
 
 process_cmd_args "$@"
+echo -e "Building ezMQ-node library("${EZMQ_TARGET_ARCH}").."
 build
+echo -e "Done building ezMQ-node library("${EZMQ_TARGET_ARCH}")"
+
+exit 0
 
