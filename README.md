@@ -8,18 +8,34 @@ and serialization / deserialization middlewares along with some added functional
   - High speed serialization and deserialization.
 
 ## Prerequisites ##
-
 - nodejs
   - Version : 8.9.4 [[Node js Download link](https://nodejs.org/en/download/)]
 
 - npm
   - Version : 5.6.0
-  
-- You must install **libsodium**:
+
+As protocol-ezmq-node is node binding of protocol-ezmq-cpp, Please install the pre-requisites of ezmq-cpp before building.
+https://github.sec.samsung.net/RS7-EdgeComputing/protocol-ezmq-cpp
+
+ - You must install basic prerequisites for build
+   - Make sure that libtool, pkg-config, build-essential, autoconf, and automake are installed.
    ```
-   $ sudo apt-get install libsodium-dev 
+   $ sudo apt-get install libtool pkg-config build-essential autoconf automake
    ```
-  
+
+- Python
+  - Version : 2.4 to 3.0
+  - [How to install](https://wiki.python.org/moin/BeginnersGuide/Download)
+
+- SCons
+  - Version : 2.3.0 or above
+  - [How to install](http://scons.org/doc/2.3.0/HTML/scons-user/c95.html)
+
+ - You must install **libsodium**:
+   ```
+   $ sudo apt-get install libsodium-dev
+
+
 ## How to build ##
 1. Goto: ~/protocol-ezmq-node/
 2. Following are the scripts for building ezmq library:</br>
