@@ -125,7 +125,7 @@ var ezmqPub = new ezmq.EZMQPublisher(port, startCB, stopCB, errorCB);
 
 if (isSecured) {
     try {
-        var severPrivatekey = "[:X%Q3UfY+kv2A^.wv:(qy2E=bk0L][cm=mS3Hcx";
+        var severPrivatekey = "";
         result = ezmqPub.setServerPrivateKey(severPrivatekey);
     } catch (err) {
         console.log('setServerPrivateKey [exception]:  ' + err.message);
