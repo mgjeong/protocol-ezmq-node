@@ -39,9 +39,9 @@ describe('#subscribeOnTopicList()', function() {
 
 describe('#subscribeSecured()', function() {
     it('should return EZMQ_OK', function() {
-        var clientSecretKey = "ZB1@RS6Kv^zucova$kH(!o>tZCQ.<!Q)6-0aWFmW";
-        var clientPublicKey = "-QW?Ved(f:<::3d5tJ$[4Er&]6#9yr=vha/caBc(";
-        var serverPublicKey = "tXJx&1^QE2g7WCXbF.$$TVP.wCtxwNhR8?iLi&S<";
+        var clientSecretKey = "";
+        var clientPublicKey = "";
+        var serverPublicKey = "";
         try {
             assert.equal(ezmqSub.setClientKeys(clientSecretKey, clientPublicKey), ezmq.EZMQErrorCode.EZMQ_OK);
             assert.equal(ezmqSub.setServerPublicKey(serverPublicKey), ezmq.EZMQErrorCode.EZMQ_OK);
