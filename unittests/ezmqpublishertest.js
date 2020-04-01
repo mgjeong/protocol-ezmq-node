@@ -61,7 +61,7 @@ describe('#publishOnTopicList()', function() {
 
 describe('#publishSecured', function() {
     it('should return EZMQ_OK', function() {
-        var severPrivatekey = "[:X%Q3UfY+kv2A^.wv:(qy2E=bk0L][cm=mS3Hcx";
+        var severPrivatekey = "";
         try {
             assert.equal(ezmqPub.setServerPrivateKey(severPrivatekey), ezmq.EZMQErrorCode.EZMQ_OK);
         } catch (err) {}
