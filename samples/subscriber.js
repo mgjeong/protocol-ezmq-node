@@ -130,14 +130,14 @@ var ezmqSub = new ezmq.EZMQSubscriber(ip, port, subCallback, subTopicCallback);
 
 if (isSecured) {
     try {
-        var clientSecretKey = "ZB1@RS6Kv^zucova$kH(!o>tZCQ.<!Q)6-0aWFmW";
-        var clientPublicKey = "-QW?Ved(f:<::3d5tJ$[4Er&]6#9yr=vha/caBc(";
+        var clientSecretKey = "";
+        var clientPublicKey = "";
         result = ezmqSub.setClientKeys(clientSecretKey, clientPublicKey);
         if (result !== ezmq.EZMQErrorCode.EZMQ_OK) {
             console.log('setClientKeys failed');
             process.exit();
         }
-        var serverPublicKey = "tXJx&1^QE2g7WCXbF.$$TVP.wCtxwNhR8?iLi&S<";
+        var serverPublicKey = "";
         result = ezmqSub.setServerPublicKey(serverPublicKey);
         if (result !== ezmq.EZMQErrorCode.EZMQ_OK) {
             console.log('setServerPublicKey failed');
