@@ -1,6 +1,6 @@
 # ezmq library (node.js)
 
-protocol-ezmq-node is nodejs binding over [protocol-ezmq-cpp](https://github.sec.samsung.net/RS7-EdgeComputing/protocol-ezmq-cpp), that provides a standard messaging interface over various data streaming
+protocol-ezmq-node is nodejs binding over [protocol-ezmq-cpp](https://github.com/edgexfoundry-holding/protocol-ezmq-cpp), that provides a standard messaging interface over various data streaming
 and serialization / deserialization middlewares along with some added functionalities.</br>
   - Currently supports streaming using 0mq and serialization / deserialization using protobuf.
   - Publisher -> Multiple Subscribers broadcasting.
@@ -14,7 +14,7 @@ and serialization / deserialization middlewares along with some added functional
 - npm
   - Version : 5.6.0
 
-- As protocol-ezmq-node is nodejs binding of [protocol-ezmq-cpp](https://github.sec.samsung.net/RS7-EdgeComputing/protocol-ezmq-cpp), Please install following pre-requisites of protocol-ezmq-cpp: 
+- As protocol-ezmq-node is nodejs binding of [protocol-ezmq-cpp](https://github.com/edgexfoundry-holding/protocol-ezmq-cpp), Please install following pre-requisites of protocol-ezmq-cpp: 
 
    - Install basic prerequisites for build
      - Make sure that libtool, pkg-config, build-essential, autoconf, and automake are installed.
