@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.sec.samsung.net/RS7-EdgeComputing/protocol-ezmq-node"
+    "url": "https://github.com/edgexfoundry-holding/protocol-ezmq-node"
   },
   "keywords": [
   ],
